@@ -1,0 +1,7 @@
+- [ ] Scaffold sqlite db
+- [ ] Add servers
+- [ ] Get servers
+- [ ] Set/Edit servers
+- [ ] Remove servers
+- [ ] Format output (Spectre.Console?)
+- [ ] Powershell binary cmdlets
