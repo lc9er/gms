@@ -1,4 +1,4 @@
-namespace gms.lib
+namespace gmslib
 {
     public class MyServer
     {

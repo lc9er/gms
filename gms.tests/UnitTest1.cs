@@ -1,5 +1,5 @@
 using Xunit;
-using gms.lib;
+using gmslib;
 
 namespace gms.tests;
 
