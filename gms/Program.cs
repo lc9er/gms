@@ -25,8 +25,6 @@ namespace gms
 
         static void Run(string Name)
         {
-            var result = new MyServerController();
-            
         }
     }
 }

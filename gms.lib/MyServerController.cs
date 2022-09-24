@@ -7,46 +7,40 @@ namespace gmslib
 
         public List<MyServer> GetAll()
         {
-            var results = new List<MyServer>();
-
-            public void Get()
+            List<MyServer> results = new List<MyServer>();
+            using (var connection = new SqliteConnection(connectionString))
             {
-                List<MyServer> tableData = new List<MyServer>();
-                using (var connection = new SqliteConnection(connectionString))
+                using (var tableCmd = connection.CreateCommand())
                 {
-                    using (var tableCmd = connection.CreateCommand())
-                    {
-                        connection.Open();
-                        tableCmd.CommandText = "SELECT * FROM myservers";
+                    connection.Open();
+                    tableCmd.CommandText = "SELECT * FROM myservers";
 
-                        using (var reader = tableCmd.ExecuteReader())
+                    using (var reader = tableCmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
                         {
-                            if (reader.HasRows)
+                            while (reader.Read())
                             {
-                                while (reader.Read())
-                                {
-                                    tableData.Add(
-                                            new MyServer
-                                            {
-                                            Name = reader.GetString(1),
-                                            FQDN = reader.GetString(2),
-                                            Duration = reader.GetString(3)
-                                            });
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine("\n\nNo rows found.");
+                                results.Add(
+                                        new MyServer
+                                        {
+                                            Name            = reader.GetString(1),
+                                            FQDN            = reader.GetString(2),
+                                            IPAddress       = reader.GetString(3),
+                                            Role            = reader.GetString(4),
+                                            ENV             = reader.GetString(5),
+                                            OperatingSystem = reader.GetString(6),
+                                            Status          = reader.GetString(7),
+                                            Notes           = reader.GetString(8),
+                                        });
                             }
                         }
                     }
-
-                    Console.WriteLine("\n\n");
                 }
-
-                TableVisualisation.ShowTable(tableData);
             }
 
+            return results;
         }
+
     }
 }
