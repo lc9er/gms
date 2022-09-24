@@ -6,7 +6,12 @@ namespace gmslib
     public class MyServerController
     {
 
-        string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString");
+        public string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString");
+
+        public MyServerController(string ConnectionString)
+        {
+            connectionString = ConnectionString;
+        }
 
         public List<MyServer> GetAll()
         {
