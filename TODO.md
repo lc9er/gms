@@ -1,4 +1,4 @@
-- [ ] Scaffold sqlite db
+- [x] Scaffold sqlite db
 - [ ] Add servers
 - [ ] Get servers
 - [ ] Set/Edit servers

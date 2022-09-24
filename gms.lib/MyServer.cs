@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace gmslib
 {
     public class MyServer
@@ -29,5 +31,6 @@ namespace gmslib
             Status          = status;
             Notes           = notes;
         }
+
     }
 }
