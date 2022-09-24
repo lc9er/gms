@@ -1,6 +1,9 @@
 - [x] Scaffold sqlite db
 - [ ] Add servers
-- [ ] Get servers
+- [ ] Get all servers
+- [ ] Get server by a single property
+- [ ] Search with wildcard
+- [ ] Sanitize search string
 - [ ] Set/Edit servers
 - [ ] Remove servers
 - [ ] Format output (Spectre.Console?)
