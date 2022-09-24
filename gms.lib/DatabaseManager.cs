@@ -14,9 +14,8 @@ namespace gmslib
 
                     tableCmd.CommandText =
                         @"CREATE TABLE IF NOT EXISTS myservers (
-                                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                FQDN TEXT PRIMARY KEY,
                                 Name TEXT,
-                                FQDN TEXT,
                                 IPAddress TEXT,
                                 Role TEXT,
                                 ENV TEXT,

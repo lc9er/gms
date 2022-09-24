@@ -38,7 +38,7 @@ namespace gms
             HelpText = "Server notes")]
         public string notes { get; set; }
 
-        [Usage(ApplicationAlias = "csvd")]
+        [Usage(ApplicationAlias = "gms")]
         public static IEnumerable<Example> Examples
         {
             get

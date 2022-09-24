@@ -1,3 +1,6 @@
+using System.Configuration;
+using Microsoft.Data.Sqlite;
+
 namespace gmslib
 {
     public class MyServerController
@@ -24,16 +27,20 @@ namespace gmslib
                                 results.Add(
                                         new MyServer
                                         {
+                                            FQDN            = reader.GetString(0),
                                             Name            = reader.GetString(1),
-                                            FQDN            = reader.GetString(2),
-                                            IPAddress       = reader.GetString(3),
-                                            Role            = reader.GetString(4),
-                                            ENV             = reader.GetString(5),
-                                            OperatingSystem = reader.GetString(6),
-                                            Status          = reader.GetString(7),
-                                            Notes           = reader.GetString(8),
+                                            IPAddress       = reader.GetString(2),
+                                            Role            = reader.GetString(3),
+                                            ENV             = reader.GetString(4),
+                                            OperatingSystem = reader.GetString(5),
+                                            Status          = reader.GetString(6),
+                                            Notes           = reader.GetString(7),
                                         });
                             }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No rows found!");
                         }
                     }
                 }
@@ -41,6 +48,5 @@ namespace gmslib
 
             return results;
         }
-
     }
 }
