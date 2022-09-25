@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Microsoft.Data.Sqlite;
 
 namespace gmslib
 {
@@ -18,6 +19,18 @@ namespace gmslib
 
         }
 
+        public MyServer(SqliteDataReader reader)
+        {
+            FQDN            = reader.GetString(0);
+            Name            = reader.GetString(1);
+            IPAddress       = reader.GetString(2);
+            Role            = reader.GetString(3);
+            ENV             = reader.GetString(4);
+            OperatingSystem = reader.GetString(5);
+            Status          = reader.GetString(6);
+            Notes           = reader.GetString(7);
+        }
+
         public MyServer(string name, string fqdn, string ipaddr,
                         string role, string env, string os,
                         string status, string notes)
@@ -31,6 +44,5 @@ namespace gmslib
             Status          = status;
             Notes           = notes;
         }
-
     }
 }

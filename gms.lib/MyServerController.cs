@@ -29,23 +29,46 @@ namespace gmslib
                         {
                             while (reader.Read())
                             {
-                                results.Add(
-                                        new MyServer
-                                        {
-                                            FQDN            = reader.GetString(0),
-                                            Name            = reader.GetString(1),
-                                            IPAddress       = reader.GetString(2),
-                                            Role            = reader.GetString(3),
-                                            ENV             = reader.GetString(4),
-                                            OperatingSystem = reader.GetString(5),
-                                            Status          = reader.GetString(6),
-                                            Notes           = reader.GetString(7),
-                                        });
+                                results.Add(new MyServer(reader));
                             }
                         }
                         else
                         {
-                            Console.WriteLine("No rows found!");
+                            Console.WriteLine("No servers found!");
+                        }
+                    }
+                }
+            }
+
+            return results;
+        }
+        
+        public List<MyServer> GetByName(string name)
+        {
+            List<MyServer> results = new List<MyServer>();
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                using (var tableCmd = connection.CreateCommand())
+                {
+                    connection.Open();
+                    tableCmd.CommandText = 
+                        $@"SELECT * 
+                        FROM myservers
+                        WHERE Name = '{name}'";
+
+                    using (var reader = tableCmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(new MyServer(reader));
+                            }
+                        }
+
+                        else
+                        {
+                            Console.WriteLine("No servers found!");
                         }
                     }
                 }

@@ -36,6 +36,13 @@ namespace gms
             {
                 Console.WriteLine(item.Name);
             }
+            
+            results = myServerController.GetByName("lilserver");
+
+            foreach (var item in results)
+            {
+                Console.WriteLine(item.Name);
+            }
         }
         
         static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)
