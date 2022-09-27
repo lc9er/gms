@@ -1,7 +1,10 @@
 - [x] Scaffold sqlite db
 - [ ] Add servers
-- [ ] Get all servers
+- [x] Get all servers
 - [ ] Get server by a single property
+    - [ ] Setup mutually exclusive opts
+    - [ ] if/else in Run to build query
+    - [ ] GetServerByProperty method
 - [ ] Search with wildcard
 - [ ] Sanitize search string
 - [ ] Set/Edit servers

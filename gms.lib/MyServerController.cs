@@ -6,7 +6,7 @@ namespace gmslib
     public class MyServerController
     {
 
-        public string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString");
+        public string? connectionString = ConfigurationManager.AppSettings.Get("ConnectionString");
 
         public MyServerController(string ConnectionString)
         {
@@ -15,28 +15,25 @@ namespace gmslib
 
         public List<MyServer> GetAll()
         {
-            List<MyServer> results = new List<MyServer>();
+            List<MyServer> results = new();
+
             using (var connection = new SqliteConnection(connectionString))
             {
-                using (var tableCmd = connection.CreateCommand())
-                {
-                    connection.Open();
-                    tableCmd.CommandText = "SELECT * FROM myservers";
+                using var tableCmd = connection.CreateCommand();
+                connection.Open();
+                tableCmd.CommandText = "SELECT * FROM myservers";
 
-                    using (var reader = tableCmd.ExecuteReader())
+                using var reader = tableCmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
                     {
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-                                results.Add(new MyServer(reader));
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("No servers found!");
-                        }
+                        results.Add(new MyServer(reader));
                     }
+                }
+                else
+                {
+                    Console.WriteLine("No servers found!");
                 }
             }
 
@@ -48,29 +45,25 @@ namespace gmslib
             List<MyServer> results = new List<MyServer>();
             using (var connection = new SqliteConnection(connectionString))
             {
-                using (var tableCmd = connection.CreateCommand())
-                {
-                    connection.Open();
-                    tableCmd.CommandText = 
-                        $@"SELECT * 
+                using var tableCmd = connection.CreateCommand();
+                connection.Open();
+                tableCmd.CommandText =
+                    $@"SELECT * 
                         FROM myservers
                         WHERE Name = '{name}'";
 
-                    using (var reader = tableCmd.ExecuteReader())
+                using var reader = tableCmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
                     {
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-                                results.Add(new MyServer(reader));
-                            }
-                        }
-
-                        else
-                        {
-                            Console.WriteLine("No servers found!");
-                        }
+                        results.Add(new MyServer(reader));
                     }
+                }
+
+                else
+                {
+                    Console.WriteLine("No servers found!");
                 }
             }
 

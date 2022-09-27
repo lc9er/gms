@@ -5,16 +5,16 @@ namespace gmslib
 {
     public class MyServer
     {
-        public string Name            { get; set; }
-        public string FQDN            { get; set; }
-        public string IPAddress       { get; set; }
-        public string Role            { get; set; }
-        public string ENV             { get; set; }
-        public string OperatingSystem { get; set; }
-        public string Status          { get; set; }
-        public string Notes           { get; set; }
+        public string? Name            { get; set; }
+        public string? FQDN            { get; set; }
+        public string? IPAddress       { get; set; }
+        public string? Role            { get; set; }
+        public string? ENV             { get; set; }
+        public string? OperatingSystem { get; set; }
+        public string? Status          { get; set; }
+        public string? Notes           { get; set; }
 
-        public MyServer()
+        public MyServer() 
         {
 
         }

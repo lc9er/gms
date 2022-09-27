@@ -12,31 +12,31 @@ namespace gms
 
         [Option('f', "fqdn",
             HelpText = "Fully Qualified Domain Name")]
-        public string fqdn { get; set; }
+        public string? fqdn { get; set; }
 
         [Option('i', "ipaddress",
             HelpText = "IPAddress")]
-        public string ipaddr { get; set; }
+        public string? ipaddr { get; set; }
 
         [Option('e', "env",
             HelpText = "Environment")]
-        public string env { get; set; }
+        public string? env { get; set; }
 
         [Option('r', "role",
             HelpText = "Role")]
-        public string role { get; set; }
+        public string? role { get; set; }
         
         [Option('s', "status",
             HelpText = "Deployment Status")]
-        public string status { get; set; }
+        public string? status { get; set; }
         
         [Option('o', "OS",
             HelpText = "Operating System")]
-        public string os { get; set; }
+        public string? os { get; set; }
 
         [Option('n', "Notes",
             HelpText = "Server notes")]
-        public string notes { get; set; }
+        public string? notes { get; set; }
 
         [Usage(ApplicationAlias = "gms")]
         public static IEnumerable<Example> Examples

@@ -6,14 +6,12 @@ namespace gmslib
     {
         public void CreateTable (string connectionString)
         {
-            using (var connection = new SqliteConnection(connectionString))
-            {
-                using (var tableCmd = connection.CreateCommand())
-                {
-                    connection.Open();
+            using var connection = new SqliteConnection(connectionString);
+            using var tableCmd = connection.CreateCommand();
+            connection.Open();
 
-                    tableCmd.CommandText =
-                        @"CREATE TABLE IF NOT EXISTS myservers (
+            tableCmd.CommandText =
+                @"CREATE TABLE IF NOT EXISTS myservers (
                                 FQDN TEXT PRIMARY KEY,
                                 Name TEXT,
                                 IPAddress TEXT,
@@ -24,9 +22,7 @@ namespace gmslib
                                 Notes TEXT
                                 )";
 
-                    tableCmd.ExecuteNonQuery();
-                }
-            }
+            tableCmd.ExecuteNonQuery();
         }
     }
 }

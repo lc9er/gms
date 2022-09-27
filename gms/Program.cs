@@ -28,7 +28,7 @@ namespace gms
         static void Run(string Name)
         {
             MyServerController myServerController = new(connectionString);
-            List<MyServer> results = new List<MyServer>();
+            List<MyServer> results = new();
 
             results = myServerController.GetAll();
 
