@@ -16,16 +16,21 @@ namespace gms
             databaseManager.CreateTable(connectionString);
 
             var parser = new CommandLine.Parser(with => with.HelpWriter = null);
-            var parserResults = parser.ParseArguments<Options>(args);
+            var parserResults = parser.ParseArguments<GetOptions, AddOptions>(args);
+
             parserResults
-                .WithParsed<Options>(opts =>
+                .WithParsed<GetOptions>(opts =>
                     {
-                        Run(opts.name);
+                        RunGet(opts.name);
                     })
-            .WithNotParsed(errs => DisplayHelp(parserResults, errs));
+                .WithParsed<AddOptions>(opts =>
+                    {
+                        RunAdd(opts.name);
+                    })
+                .WithNotParsed(errs => DisplayHelp(parserResults, errs));
         }
 
-        static void Run(string Name)
+        static void RunGet(string Name)
         {
             MyServerController myServerController = new(connectionString);
             List<MyServer> results = new();
@@ -44,7 +49,13 @@ namespace gms
                 Console.WriteLine(item.Name);
             }
         }
-        
+       
+        static void RunAdd(string Name)
+        {
+            // Placeholder
+            Console.WriteLine(Name);
+        }
+
         static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)
         {
             var helpText = HelpText.AutoBuild(result, h =>
@@ -53,7 +64,9 @@ namespace gms
                 h.Heading = "gms 0.0.1";
                 h.Copyright = "Copyright (c) 2022 lc9er";
                 return HelpText.DefaultParsingErrorsHandler(result, h);
-            }, e => e);
+            }, 
+            e => e,
+            verbsIndex:true);
             Console.WriteLine(helpText);
         }
     }
