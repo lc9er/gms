@@ -18,7 +18,7 @@ namespace gms
             databaseManager.CreateTable(connectionString);
 
             var parser = new CommandLine.Parser(with => with.HelpWriter = null);
-            var parserResults = parser.ParseArguments<GetOptions, AddOptions>(args);
+            var parserResults = parser.ParseArguments<GetOptions, AddOptions, EditOptions, DelOptions>(args);
 
             parserResults
                 .WithParsed<GetOptions>(opts =>
@@ -28,6 +28,14 @@ namespace gms
                 .WithParsed<AddOptions>(opts =>
                     {
                         RunAdd(opts);
+                    })
+                .WithParsed<EditOptions>(opts =>
+                    {
+                        RunEdit(opts);
+                    })
+                .WithParsed<DelOptions>(opts =>
+                    {
+                        RunDel(opts);
                     })
                 .WithNotParsed(errs => DisplayHelp(parserResults, errs));
         }
@@ -89,6 +97,16 @@ namespace gms
 
             //myServerController.AddServer(opts.name, opts.fqdn, opts.ipaddr, opts.env, opts.role, opts.status, opts.os, opts.notes);
             //results = myServerController.GetByProperty("FQDN", opts.fqdn);
+        }
+
+        static void RunDel(DelOptions opts)
+        {
+
+        }
+
+        static void RunEdit(EditOptions opts)
+        {
+            
         }
 
         static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)

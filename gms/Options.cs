@@ -56,4 +56,25 @@ namespace gms
         public string? os    { get; set; }
         public string? notes { get; set; }
     }
+
+    [Verb("edit", false, HelpText = "Edit a server record by FQDN.")]
+    class EditOptions : IOptions
+    {
+        public string? name  { get; set; }
+        public string? fqdn  { get; set; }
+        public string? ipaddr{ get; set; }
+        public string? env   { get; set; }
+        public string? role  { get; set; }
+        public string? status{ get; set; }
+        public string? os    { get; set; }
+        public string? notes { get; set; }
+
+    }
+
+    [Verb("del", false, HelpText = "Delete a server record by FQDN.")]
+    class DelOptions
+    {
+        [Option('f', "fqdn", HelpText = "Fully Qualified Domain Name")]
+        string? fqdn { get; set; }
+    }
 }
