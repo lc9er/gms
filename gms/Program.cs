@@ -27,7 +27,7 @@ namespace gms
                     })
                 .WithParsed<AddOptions>(opts =>
                     {
-                        RunAdd(opts.name);
+                        RunAdd(opts);
                     })
                 .WithNotParsed(errs => DisplayHelp(parserResults, errs));
         }
@@ -37,6 +37,7 @@ namespace gms
             MyServerController myServerController = new(connectionString);
             List<MyServer> results = new();
 
+            // new function to parse opts and clean this up
             if (!String.IsNullOrEmpty(opts.name))
             {
                 results = myServerController.GetByProperty("Name", opts.name);
@@ -80,10 +81,14 @@ namespace gms
             }
         }
 
-        static void RunAdd(string Name)
+        static void RunAdd(AddOptions opts)
         {
             // Placeholder
-            Console.WriteLine(Name);
+            //MyServerController myServerController = new(connectionString);
+            //List<MyServer> results = new();
+
+            //myServerController.AddServer(opts.name, opts.fqdn, opts.ipaddr, opts.env, opts.role, opts.status, opts.os, opts.notes);
+            //results = myServerController.GetByProperty("FQDN", opts.fqdn);
         }
 
         static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)

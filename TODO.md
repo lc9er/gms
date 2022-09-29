@@ -1,14 +1,13 @@
 - [x] Scaffold sqlite db
 - [ ] Add servers
 - [x] Get all servers
-- [ ] Get server by a single property
-    - [ ] Setup mutually exclusive opts
-    - [ ] if/else in Run to build query
-    - [ ] GetServerByProperty method
+- [x] Get server by a single property
+    - [x] if/else in Run to build query
+    - [x] GetServerByProperty method
 - [ ] Search with wildcard
 - [ ] Sanitize search string
+- [ ] Fix case sensitivity
 - [ ] Set/Edit servers
 - [ ] Remove servers
 - [ ] Format output (Spectre.Console?)
 - [ ] Powershell binary cmdlets
-- [ ] Fix case sensitivity
