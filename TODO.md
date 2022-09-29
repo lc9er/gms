@@ -11,3 +11,4 @@
 - [ ] Remove servers
 - [ ] Format output (Spectre.Console?)
 - [ ] Powershell binary cmdlets
+- [ ] Fix case sensitivity

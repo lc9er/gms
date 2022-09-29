@@ -40,7 +40,7 @@ namespace gmslib
             return results;
         }
         
-        public List<MyServer> GetByName(string name)
+        public List<MyServer> GetByProperty(string property, string value)
         {
             List<MyServer> results = new List<MyServer>();
             using (var connection = new SqliteConnection(connectionString))
@@ -50,7 +50,7 @@ namespace gmslib
                 tableCmd.CommandText =
                     $@"SELECT * 
                         FROM myservers
-                        WHERE Name = '{name}'";
+                        WHERE {property} = '{value}'";
 
                 using var reader = tableCmd.ExecuteReader();
                 if (reader.HasRows)

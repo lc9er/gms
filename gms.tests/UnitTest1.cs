@@ -95,8 +95,9 @@ public class UnitTest1
         MyServerController myServerController = new(connectionString);
         List<MyServer> results = new();
 
-        results = myServerController.GetByName(value);
+        results = myServerController.GetByProperty("Name", value);
 
-        Assert.Equal(value, results[0].Name);
+        foreach (var item in results)
+            Assert.Equal(value, item.Name);
     }
 }

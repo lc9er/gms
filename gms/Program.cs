@@ -3,12 +3,14 @@ using CommandLine.Text;
 using System.Configuration;
 using System.Collections.Generic;
 using gmslib;
+using System.ComponentModel.Design;
 
 namespace gms
 {
     class Program
     {
         static string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString");
+        //static readonly string[] verbOpts = ["name", "fqdn", "ipaddr", "env", "role", "status", "os", "notes"];
 
         static void Main(string[] args)
         {
@@ -21,7 +23,7 @@ namespace gms
             parserResults
                 .WithParsed<GetOptions>(opts =>
                     {
-                        RunGet(opts.name);
+                        RunGet(opts);
                     })
                 .WithParsed<AddOptions>(opts =>
                     {
@@ -30,26 +32,54 @@ namespace gms
                 .WithNotParsed(errs => DisplayHelp(parserResults, errs));
         }
 
-        static void RunGet(string Name)
+        static void RunGet(GetOptions opts)
         {
             MyServerController myServerController = new(connectionString);
             List<MyServer> results = new();
 
-            results = myServerController.GetAll();
-
-            foreach (var item in results)
+            if (!String.IsNullOrEmpty(opts.name))
             {
-                Console.WriteLine(item.Name);
+                results = myServerController.GetByProperty("Name", opts.name);
             }
-            
-            results = myServerController.GetByName("lilserver");
+            else if (!String.IsNullOrEmpty(opts.fqdn))
+            {
+                results = myServerController.GetByProperty("FQDN", opts.fqdn);
+            }
+            else if (!String.IsNullOrEmpty(opts.ipaddr))
+            {
+                results = myServerController.GetByProperty("IPAddress", opts.ipaddr);
+            }
+            else if (!String.IsNullOrEmpty(opts.env))
+            {
+                results = myServerController.GetByProperty("ENV", opts.env);
+            }
+            else if (!String.IsNullOrEmpty(opts.role))
+            {
+                results = myServerController.GetByProperty("Role", opts.role);
+            }
+            else if (!String.IsNullOrEmpty(opts.status))
+            {
+                results = myServerController.GetByProperty("status", opts.status);
+            }
+            else if (!String.IsNullOrEmpty(opts.os))
+            {
+                results = myServerController.GetByProperty("OperatingSystem", opts.os);
+            }
+            else if (!String.IsNullOrEmpty(opts.notes))
+            {
+                results = myServerController.GetByProperty("Notes", opts.notes);
+            }
+            else
+            {
+                results = myServerController.GetAll();
+            }
 
             foreach (var item in results)
             {
                 Console.WriteLine(item.Name);
             }
         }
-       
+
         static void RunAdd(string Name)
         {
             // Placeholder
