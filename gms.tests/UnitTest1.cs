@@ -84,7 +84,7 @@ public class UnitTest1
         results = myServerController.GetAll();
 
         Assert.True(results.Any());
-        Assert.Equal(2, results.Count());
+        Assert.Equal(2, results.Count);
     }
 
     [Theory]
@@ -149,8 +149,9 @@ public class UnitTest1
 
         results = myServerController.GetByProperty("ENV", env);
         Assert.Equal("bigserver", results[0].Name);
-    }    [Fact]
+    }
 
+    [Fact]
     public void GetByStatus()
     {
         string status = "staging";
@@ -160,5 +161,40 @@ public class UnitTest1
 
         results = myServerController.GetByProperty("Status", status);
         Assert.Equal("lilserver", results[0].Name);
+    }
+
+    [Fact]
+    public void AddServer()
+    {
+        MyServerController myServerController = new(connectionString);
+        List<MyServer> results = new();
+        MyServer myServer = new MyServer("SomeServer", "Someserver.fake.domain", "10.0.0.10", 
+                                     "Files", "PROD", "RedHat", "live", "SMB Server");
+
+        myServerController.AddMyServer(myServer);
+        results = myServerController.GetByProperty("FQDN", myServer.FQDN);
+        Assert.Equal("SomeServer", results[0].Name);
+
+        // Cleanup
+        myServerController.DeleteMyServer(myServer);
+    }
+
+    [Fact]
+    public void DeleteServer()
+    {
+        MyServerController myServerController = new(connectionString);
+        List<MyServer> results = new();
+        MyServer myServer = new MyServer("OtherServer", "OtherServer.fake.domain", "10.0.0.11", 
+                                     "Files", "PROD", "RedHat", "live", "SMB Server");
+
+        // Add Server
+        myServerController.AddMyServer(myServer);
+        results = myServerController.GetByProperty("FQDN", myServer.FQDN);
+        Assert.Equal("OtherServer", results[0].Name);
+
+        // Remove Server
+        myServerController.DeleteMyServer(myServer);
+        results = myServerController.GetByProperty("FQDN", myServer.FQDN);
+        Assert.True(!results.Any());
     }
 }

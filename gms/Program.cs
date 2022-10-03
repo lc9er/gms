@@ -91,17 +91,22 @@ namespace gms
 
         static void RunAdd(AddOptions opts)
         {
-            // Placeholder
-            //MyServerController myServerController = new(connectionString);
-            //List<MyServer> results = new();
+            MyServer myServer = new MyServer(opts.name, opts.fqdn, opts.ipaddr, 
+                                             opts.role, opts.env, opts.os, 
+                                             opts.status, opts.notes);
 
-            //myServerController.AddServer(opts.name, opts.fqdn, opts.ipaddr, opts.env, opts.role, opts.status, opts.os, opts.notes);
-            //results = myServerController.GetByProperty("FQDN", opts.fqdn);
+            MyServerController myServerController = new(connectionString);
+            myServerController.AddMyServer(myServer);
         }
 
         static void RunDel(DelOptions opts)
         {
+            MyServer myServer = new MyServer(opts.name, opts.fqdn, opts.ipaddr, 
+                                             opts.role, opts.env, opts.os, 
+                                             opts.status, opts.notes);
 
+            MyServerController myServerController = new(connectionString);
+            myServerController.DeleteMyServer(myServer);
         }
 
         static void RunEdit(EditOptions opts)

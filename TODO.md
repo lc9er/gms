@@ -1,5 +1,5 @@
 - [x] Scaffold sqlite db
-- [ ] Add servers
+- [x] Add servers
 - [x] Get all servers
 - [x] Get server by a single property
     - [x] if/else in Run to build query
@@ -8,6 +8,6 @@
 - [ ] Sanitize search string
 - [ ] Fix case sensitivity
 - [ ] Set/Edit servers
-- [ ] Remove servers
+- [x] Remove servers
 - [ ] Format output (Spectre.Console?)
 - [ ] Powershell binary cmdlets
