@@ -43,6 +43,7 @@ namespace gmslib
         public List<MyServer> GetByProperty(string property, string value)
         {
             List<MyServer> results = new List<MyServer>();
+
             using (var connection = new SqliteConnection(connectionString))
             {
                 using var tableCmd = connection.CreateCommand();
