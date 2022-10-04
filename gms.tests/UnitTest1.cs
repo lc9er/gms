@@ -102,6 +102,20 @@ public class UnitTest1
     }
 
     [Theory]
+    [InlineData("LILSERVER")]
+    [InlineData("bIgSeRvEr")]
+    public void GetByNameNoCase(string value)
+    {
+        MyServerController myServerController = new(connectionString);
+        List<MyServer> results = new();
+
+        results = myServerController.GetByProperty("Name", value);
+
+        foreach (var item in results)
+            Assert.Equal(value.ToLower(), item.Name.ToLower());
+    }
+
+    [Theory]
     [InlineData("lilserver.fake.domain")]
     [InlineData("bigserver.fake.domain")]
     public void GetByFQDN(string value)
@@ -191,6 +205,25 @@ public class UnitTest1
         myServerController.AddMyServer(myServer);
         results = myServerController.GetByProperty("FQDN", myServer.FQDN);
         Assert.Equal("OtherServer", results[0].Name);
+
+        // Remove Server
+        myServerController.DeleteMyServer(myServer);
+        results = myServerController.GetByProperty("FQDN", myServer.FQDN);
+        Assert.True(!results.Any());
+    }
+
+    [Fact]
+    public void DeleteServerNoCase()
+    {
+        MyServerController myServerController = new(connectionString);
+        List<MyServer> results = new();
+        MyServer myServer = new MyServer("OtherServer2", "OtherServer2.fake.domain", "10.0.0.21", 
+                                     "Files", "PROD", "RedHat", "live", "SMB Server");
+
+        // Add Server
+        myServerController.AddMyServer(myServer);
+        results = myServerController.GetByProperty("FQDN", "oTHERsERVER2.fake.domaiN");
+        Assert.Equal("OtherServer2".ToLower(), results[0].Name.ToLower());
 
         // Remove Server
         myServerController.DeleteMyServer(myServer);

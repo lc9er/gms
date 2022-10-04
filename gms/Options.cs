@@ -75,6 +75,6 @@ namespace gms
     class DelOptions
     {
         [Option('f', "fqdn", HelpText = "Fully Qualified Domain Name")]
-        string? fqdn { get; set; }
+        public string? fqdn { get; set; }
     }
 }

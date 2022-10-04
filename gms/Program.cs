@@ -101,9 +101,8 @@ namespace gms
 
         static void RunDel(DelOptions opts)
         {
-            MyServer myServer = new MyServer(opts.name, opts.fqdn, opts.ipaddr, 
-                                             opts.role, opts.env, opts.os, 
-                                             opts.status, opts.notes);
+            MyServer myServer = new MyServer();
+            myServer.FQDN = opts.fqdn;
 
             MyServerController myServerController = new(connectionString);
             myServerController.DeleteMyServer(myServer);

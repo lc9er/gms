@@ -51,7 +51,7 @@ namespace gmslib
                 tableCmd.CommandText =
                     $@"SELECT * 
                         FROM myservers
-                        WHERE {property} = '{value}'";
+                        WHERE {property} = '{value}' COLLATE NOCASE";
 
                 using var reader = tableCmd.ExecuteReader();
                 if (reader.HasRows)
@@ -106,7 +106,7 @@ namespace gmslib
                 {
                     tableCmd.CommandText =
                         $@"DELETE FROM myservers
-                           WHERE FQDN = '{server.FQDN}'";
+                           WHERE FQDN = '{server.FQDN}' COLLATE NOCASE";
                     tableCmd.ExecuteNonQuery();
                 }
                 else
