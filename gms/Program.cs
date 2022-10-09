@@ -110,7 +110,12 @@ namespace gms
 
         static void RunEdit(EditOptions opts)
         {
-            
+            MyServer myServer = new MyServer(opts.name, opts.fqdn, opts.ipaddr, 
+                                             opts.role, opts.env, opts.os, 
+                                             opts.status, opts.notes);
+
+            MyServerController myServerController = new(connectionString);
+            myServerController.EditMyServer(myServer);
         }
 
         static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)

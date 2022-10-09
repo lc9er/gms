@@ -1,4 +1,5 @@
 using System.Configuration;
+using System.Reflection;
 using Microsoft.Data.Sqlite;
 
 namespace gmslib
@@ -114,6 +115,49 @@ namespace gmslib
                     Console.WriteLine("Must provide FQDN.");
                 }
             }
+        }
+
+        public void EditMyServer(MyServer server)
+        {
+            Dictionary<string,string> updateVals = GetUpdateString(server);
+
+            //using (var connection = new SqliteConnection(connectionString))
+            //{
+            //    using var tableCmd = connection.CreateCommand();
+            //    connection.Open();
+
+            //    if (!String.IsNullOrEmpty(server.FQDN))
+            //    {
+            //        tableCmd.CommandText =
+            //            $@"DELETE FROM myservers
+            //               WHERE FQDN = '{server.FQDN}' COLLATE NOCASE";
+            //        tableCmd.ExecuteNonQuery();
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Must provide FQDN.");
+            //    }
+            //}
+        }
+
+        public Dictionary<string, string> GetUpdateString(MyServer server)
+        {
+            Dictionary<string, string> editOpts = new();
+
+            foreach (PropertyInfo prop in server.GetType().GetProperties())
+            {
+                if (prop.PropertyType == typeof(string))
+                {
+                    string propVal = (string)prop.GetValue(server, null);
+
+                    if (!String.IsNullOrEmpty(propVal))
+                    {
+                        editOpts.Add(prop.Name, propVal);
+                    }
+                }
+            }
+
+            return editOpts;
         }
     }
 }

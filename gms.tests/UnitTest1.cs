@@ -230,4 +230,26 @@ public class UnitTest1
         results = myServerController.GetByProperty("FQDN", myServer.FQDN);
         Assert.True(!results.Any());
     }
+
+    [Fact]
+    public void GetEditOpts()
+    {
+        MyServerController myServerController = new(connectionString);
+        MyServer myServer = new MyServer();
+        myServer.Name = "EditServer";
+        myServer.FQDN = "EditServer.fake.domain";
+        myServer.IPAddress = "10.10.10.11";
+
+        Dictionary<string, string> results = myServerController.GetUpdateString(myServer);
+        string[] expected = { "Name", "FQDN", "IPAddress" };
+        string[] actual = results.Keys.ToArray();
+        Array.Sort(expected);
+        Array.Sort(actual);
+
+        Assert.Equal("EditServer", results["Name"]);
+        Assert.Equal("EditServer.fake.domain", results["FQDN"]);
+        Assert.Equal("10.10.10.11", results["IPAddress"]);
+        Assert.Equal<string>(expected, actual);
+
+    }
 }
