@@ -119,7 +119,7 @@ namespace gmslib
 
         public void EditMyServer(MyServer server)
         {
-            Dictionary<string,string> updateVals = GetUpdateString(server);
+            List<string> updateVals = GetUpdateString(server);
 
             //using (var connection = new SqliteConnection(connectionString))
             //{
@@ -140,7 +140,7 @@ namespace gmslib
             //}
         }
 
-        public Dictionary<string, string> GetUpdateString(MyServer server)
+        public List<string> GetUpdateString(MyServer server)
         {
             Dictionary<string, string> editOpts = new();
 
@@ -156,8 +156,18 @@ namespace gmslib
                     }
                 }
             }
+            
+            List<string> keys = editOpts.Keys.ToList();
+            List<string> vals = editOpts.Values.ToList();
 
-            return editOpts;
+            string keyString = String.Join(", ", keys);
+            string valString = String.Join(", ", vals);
+
+            List<string> keysAndVals = new();
+            keysAndVals.Add(keyString);
+            keysAndVals.Add(valString);
+
+            return keysAndVals;
         }
     }
 }

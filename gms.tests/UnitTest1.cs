@@ -240,16 +240,11 @@ public class UnitTest1
         myServer.FQDN = "EditServer.fake.domain";
         myServer.IPAddress = "10.10.10.11";
 
-        Dictionary<string, string> results = myServerController.GetUpdateString(myServer);
-        string[] expected = { "Name", "FQDN", "IPAddress" };
-        string[] actual = results.Keys.ToArray();
-        Array.Sort(expected);
-        Array.Sort(actual);
+        List<string> results = myServerController.GetUpdateString(myServer);
+        string expectedKeys =  "Name, FQDN, IPAddress";
+        string expectedVals = "EditServer, EditServer.fake.domain, 10.10.10.11";
 
-        Assert.Equal("EditServer", results["Name"]);
-        Assert.Equal("EditServer.fake.domain", results["FQDN"]);
-        Assert.Equal("10.10.10.11", results["IPAddress"]);
-        Assert.Equal<string>(expected, actual);
-
+        Assert.Equal(expectedKeys.ToLower(), results[0].ToLower());
+        Assert.Equal(expectedVals.ToLower(), results[1].ToLower());
     }
 }
