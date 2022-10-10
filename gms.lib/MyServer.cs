@@ -44,5 +44,21 @@ namespace gmslib
             Status          = status;
             Notes           = notes;
         }
+        public void MergeFrom(MyServer source)
+        {
+            Type t = typeof(MyServer);
+
+            var props = t.GetProperties().Where(property => property.CanRead && property.CanWrite);
+
+            foreach (var prop in props)
+            {
+                string value = (string)prop.GetValue(source, null);
+
+                if(!String.IsNullOrEmpty(value))
+                {
+                    prop.SetValue(this, value);
+                }
+            }
+        }
     }
 }

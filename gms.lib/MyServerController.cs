@@ -117,57 +117,42 @@ namespace gmslib
             }
         }
 
-        public void EditMyServer(MyServer server)
+        public void EditMyServer(MyServer editedServer)
         {
-            List<string> updateVals = GetUpdateString(server);
+            List<MyServer> currentRecordList = new();
+            currentRecordList = GetByProperty("FQDN", editedServer.FQDN);
+            MyServer currentRecord = currentRecordList[0];
 
-            //using (var connection = new SqliteConnection(connectionString))
-            //{
-            //    using var tableCmd = connection.CreateCommand();
-            //    connection.Open();
+            currentRecord.MergeFrom(editedServer);
 
-            //    if (!String.IsNullOrEmpty(server.FQDN))
-            //    {
-            //        tableCmd.CommandText =
-            //            $@"DELETE FROM myservers
-            //               WHERE FQDN = '{server.FQDN}' COLLATE NOCASE";
-            //        tableCmd.ExecuteNonQuery();
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("Must provide FQDN.");
-            //    }
-            //}
-        }
-
-        public List<string> GetUpdateString(MyServer server)
-        {
-            Dictionary<string, string> editOpts = new();
-
-            foreach (PropertyInfo prop in server.GetType().GetProperties())
+            using (var connection = new SqliteConnection(connectionString))
             {
-                if (prop.PropertyType == typeof(string))
-                {
-                    string propVal = (string)prop.GetValue(server, null);
+                using var tableCmd = connection.CreateCommand();
+                connection.Open();
 
-                    if (!String.IsNullOrEmpty(propVal))
-                    {
-                        editOpts.Add(prop.Name, propVal);
-                    }
+                if (!String.IsNullOrEmpty(currentRecord.FQDN))
+                {
+                    tableCmd.CommandText = $"UPDATE myservers " +
+                                                $"SET [Name] = @Name,  [IPAddress] = @IPAddress, " +
+                                                $"[Role] = @Role, [ENV] = @ENV, [OperatingSystem] = @OperatingSystem, " +
+                                                $"[Status] = @Status, [Notes] = @Notes " +
+                                           $"WHERE [FQDN] = @FQDN";
+                    tableCmd.Parameters.AddWithValue("@FQDN", currentRecord.FQDN);
+                    tableCmd.Parameters.AddWithValue("@Name", currentRecord.Name);
+                    tableCmd.Parameters.AddWithValue("@IPAddress", currentRecord.IPAddress);
+                    tableCmd.Parameters.AddWithValue("@Role", currentRecord.Role);
+                    tableCmd.Parameters.AddWithValue("@ENV", currentRecord.ENV);
+                    tableCmd.Parameters.AddWithValue("@OperatingSystem", currentRecord.OperatingSystem);
+                    tableCmd.Parameters.AddWithValue("@Status", currentRecord.Status);
+                    tableCmd.Parameters.AddWithValue("@Notes", currentRecord.Notes);
+
+                    tableCmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    Console.WriteLine("Must provide FQDN.");
                 }
             }
-            
-            List<string> keys = editOpts.Keys.ToList();
-            List<string> vals = editOpts.Values.ToList();
-
-            string keyString = String.Join(", ", keys);
-            string valString = String.Join(", ", vals);
-
-            List<string> keysAndVals = new();
-            keysAndVals.Add(keyString);
-            keysAndVals.Add(valString);
-
-            return keysAndVals;
         }
     }
 }

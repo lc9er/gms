@@ -232,19 +232,38 @@ public class UnitTest1
     }
 
     [Fact]
-    public void GetEditOpts()
+    public void EditServerRecord()
     {
         MyServerController myServerController = new(connectionString);
-        MyServer myServer = new MyServer();
-        myServer.Name = "EditServer";
-        myServer.FQDN = "EditServer.fake.domain";
-        myServer.IPAddress = "10.10.10.11";
+        List<MyServer> results = new();
+        MyServer myServer = new MyServer("OtherServer3", "OtherServer3.fake.domain", "10.0.0.31", 
+                                     "SQL", "PROD", "Ubuntu", "staging", "Postgres");
+        MyServer editServer = new MyServer();
+        editServer.FQDN = "OtherServer3.fake.domain";
+        editServer.IPAddress = "10.10.10.31";
+        editServer.OperatingSystem = "Debian";
 
-        List<string> results = myServerController.GetUpdateString(myServer);
-        string expectedKeys =  "Name, FQDN, IPAddress";
-        string expectedVals = "EditServer, EditServer.fake.domain, 10.10.10.11";
+        // Add Server
+        myServerController.AddMyServer(myServer);
+        results = myServerController.GetByProperty("FQDN", "OtherServer3.fake.domain");
+        Assert.Equal("OtherServer3".ToLower(), results[0].Name.ToLower());
 
-        Assert.Equal(expectedKeys.ToLower(), results[0].ToLower());
-        Assert.Equal(expectedVals.ToLower(), results[1].ToLower());
+        // Edit Server
+        myServerController.EditMyServer(editServer);
+        List<MyServer> newResults = myServerController.GetByProperty("FQDN", myServer.FQDN);
+
+        // Test
+        Assert.Equal(myServer.FQDN, newResults[0].FQDN);
+        Assert.Equal(myServer.Name, newResults[0].Name);
+        Assert.Equal(editServer.IPAddress, newResults[0].IPAddress);
+        Assert.Equal(myServer.Role, newResults[0].Role);
+        Assert.Equal(myServer.ENV, newResults[0].ENV);
+        Assert.Equal(editServer.OperatingSystem, newResults[0].OperatingSystem);
+        Assert.Equal(myServer.Status, newResults[0].Status);
+        Assert.Equal(myServer.Notes, newResults[0].Notes);
+
+        // Cleanup
+        myServerController.DeleteMyServer(myServer);
+        Thread.Sleep(500);
     }
 }
