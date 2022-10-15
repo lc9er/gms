@@ -1,16 +1,14 @@
 ﻿using CommandLine;
 using CommandLine.Text;
 using System.Configuration;
-using System.Collections.Generic;
 using gmslib;
-using System.ComponentModel.Design;
 
 namespace gms
 {
     class Program
     {
-        static string connectionString = ConfigurationManager.AppSettings.Get("ConnectionString");
-        //static readonly string[] verbOpts = ["name", "fqdn", "ipaddr", "env", "role", "status", "os", "notes"];
+        static string connectionString = ConfigurationManager.ConnectionStrings["MyServer"].ConnectionString
+            .Replace("%AppData%", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
         static void Main(string[] args)
         {
