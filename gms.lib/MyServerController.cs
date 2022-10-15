@@ -50,11 +50,17 @@ namespace gmslib
                 using var tableCmd = connection.CreateCommand();
                 connection.Open();
                 tableCmd.CommandText =
+                    //$@"SELECT * 
+                    //    FROM myservers
+                    //    WHERE {property} = '{value}' COLLATE NOCASE";
                     $@"SELECT * 
                         FROM myservers
-                        WHERE {property} = '{value}' COLLATE NOCASE";
+                        WHERE [{property}] = @PROPERTY COLLATE NOCASE";
+
+                tableCmd.Parameters.AddWithValue("@PROPERTY", value);
 
                 using var reader = tableCmd.ExecuteReader();
+
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -82,11 +88,19 @@ namespace gmslib
                 if (!String.IsNullOrEmpty(server.Name) && !String.IsNullOrEmpty(server.FQDN))
                 {
                     tableCmd.CommandText =
-                        $@"INSERT INTO myservers ( FQDN, Name, IPAddress, Role, ENV, OperatingSystem, Status, Notes ) 
-                            VALUES ( '{server.FQDN}', '{server.Name}', '{server.IPAddress}', 
-                                     '{server.Role}', '{server.ENV}', '{server.OperatingSystem}', 
-                                     '{server.Status}', '{server.Notes}' ) ";
+                        $@"INSERT INTO myservers ( [FQDN], [Name], [IPAddress], [Role], [ENV], [OperatingSystem], [Status], [Notes] ) 
+                            VALUES ( @FQDN, @Name, @IPAddress, 
+                                     @Role, @ENV, @OperatingSystem, 
+                                     @Status, @Notes )";
 
+                    tableCmd.Parameters.AddWithValue("@FQDN", server.FQDN);
+                    tableCmd.Parameters.AddWithValue("@Name", server.Name);
+                    tableCmd.Parameters.AddWithValue("@IPAddress", server.IPAddress);
+                    tableCmd.Parameters.AddWithValue("@Role", server.Role);
+                    tableCmd.Parameters.AddWithValue("@ENV", server.ENV);
+                    tableCmd.Parameters.AddWithValue("@OperatingSystem", server.OperatingSystem);
+                    tableCmd.Parameters.AddWithValue("@Status", server.Status);
+                    tableCmd.Parameters.AddWithValue("@Notes", server.Notes);
                     tableCmd.ExecuteNonQuery();
                 }
                 else
@@ -106,8 +120,8 @@ namespace gmslib
                 if (!String.IsNullOrEmpty(server.FQDN))
                 {
                     tableCmd.CommandText =
-                        $@"DELETE FROM myservers
-                           WHERE FQDN = '{server.FQDN}' COLLATE NOCASE";
+                        $"DELETE FROM myservers WHERE [FQDN] = @FQDN COLLATE NOCASE";
+                    tableCmd.Parameters.AddWithValue("@FQDN", server.FQDN);
                     tableCmd.ExecuteNonQuery();
                 }
                 else
@@ -132,11 +146,13 @@ namespace gmslib
 
                 if (!String.IsNullOrEmpty(currentRecord.FQDN))
                 {
-                    tableCmd.CommandText = $"UPDATE myservers " +
-                                                $"SET [Name] = @Name,  [IPAddress] = @IPAddress, " +
-                                                $"[Role] = @Role, [ENV] = @ENV, [OperatingSystem] = @OperatingSystem, " +
-                                                $"[Status] = @Status, [Notes] = @Notes " +
-                                           $"WHERE [FQDN] = @FQDN";
+                    tableCmd.CommandText = $@"UPDATE myservers
+                                              SET 
+                                                    [Name] = @Name,  [IPAddress] = @IPAddress, 
+                                                    [Role] = @Role, [ENV] = @ENV, 
+                                                    [OperatingSystem] = @OperatingSystem, 
+                                                    [Status] = @Status, [Notes] = @Notes 
+                                              WHERE [FQDN] = @FQDN";
                     tableCmd.Parameters.AddWithValue("@FQDN", currentRecord.FQDN);
                     tableCmd.Parameters.AddWithValue("@Name", currentRecord.Name);
                     tableCmd.Parameters.AddWithValue("@IPAddress", currentRecord.IPAddress);

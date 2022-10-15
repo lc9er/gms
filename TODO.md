@@ -5,7 +5,7 @@
     - [x] if/else in Run to build query
     - [x] GetServerByProperty method
 - [ ] Search with wildcard
-- [ ] Sanitize search string (Used parameterized queries)
+- [x] Sanitize search string (Used parameterized queries)
 - [x] Fix case sensitivity
 - [x] Set/Edit servers
 - [x] Remove servers
