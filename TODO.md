@@ -4,7 +4,7 @@
 - [x] Get server by a single property
     - [x] if/else in Run to build query
     - [x] GetServerByProperty method
-- [ ] Search with wildcard
+- [x] Search with wildcard
 - [x] Sanitize search string (Used parameterized queries)
 - [x] Fix case sensitivity
 - [x] Set/Edit servers

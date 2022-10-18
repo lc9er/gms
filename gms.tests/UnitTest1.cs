@@ -178,6 +178,18 @@ public class UnitTest1
     }
 
     [Fact]
+    public void GetByWildcard()
+    {
+        string name = "lil%";
+
+        MyServerController myServerController = new(connectionString);
+        List<MyServer> results = new();
+
+        results = myServerController.GetByProperty("Name", name);
+        Assert.Equal("lilserver", results[0].Name);
+    }
+
+    [Fact]
     public void AddServer()
     {
         MyServerController myServerController = new(connectionString);

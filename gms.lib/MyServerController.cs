@@ -55,7 +55,7 @@ namespace gmslib
                     //    WHERE {property} = '{value}' COLLATE NOCASE";
                     $@"SELECT * 
                         FROM myservers
-                        WHERE [{property}] = @PROPERTY COLLATE NOCASE";
+                        WHERE [{property}] LIKE @PROPERTY COLLATE NOCASE";
 
                 tableCmd.Parameters.AddWithValue("@PROPERTY", value);
 

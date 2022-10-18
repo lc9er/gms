@@ -31,7 +31,7 @@ namespace gms
 
     }
 
-    [Verb("get", true, HelpText = "Get server(s) by <Property>. Returns all servers, by default.")]
+    [Verb("get", true, HelpText = "Returns all servers (default), or get servers by PROPERTY. Supports SQL-style wildcards (%).")]
     class GetOptions : IOptions
     {
         public string? name  { get; set; }
