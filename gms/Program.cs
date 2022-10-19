@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using CommandLine.Text;
 using System.Configuration;
+using Spectre.Console;
 using gmslib;
 
 namespace gms
@@ -81,10 +82,7 @@ namespace gms
                 results = myServerController.GetAll();
             }
 
-            foreach (var item in results)
-            {
-                Console.WriteLine(item.Name);
-            }
+            PrintOutput(results);
         }
 
         static void RunAdd(AddOptions opts)
@@ -128,6 +126,25 @@ namespace gms
             e => e,
             verbsIndex:true);
             Console.WriteLine(helpText);
+        }
+
+        static void PrintOutput(List<MyServer> servers)
+        {
+            string[] header = { "Name", "FQDN", "IPAddress", "Role", "Env", "OS", "Status", "Notes" };
+            Table table = new Table();
+
+            table.AddColumns(header);
+            table.Border = TableBorder.Simple;
+
+            foreach (var server in servers)
+            {
+                string[] row = { server.Name, server.FQDN, server.IPAddress,
+                                 server.Role, server.ENV, server.OperatingSystem,
+                                 server.Status, server.Notes };
+                table.AddRow(row);
+            }
+
+            AnsiConsole.Write(table);
         }
     }
 }

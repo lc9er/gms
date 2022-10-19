@@ -9,5 +9,5 @@
 - [x] Fix case sensitivity
 - [x] Set/Edit servers
 - [x] Remove servers
-- [ ] Format output (Spectre.Console?)
+- [x] Format output (Spectre.Console?)
 - [ ] Powershell binary cmdlets
