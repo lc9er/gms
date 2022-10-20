@@ -10,4 +10,7 @@
 - [x] Set/Edit servers
 - [x] Remove servers
 - [x] Format output (Spectre.Console?)
+- [ ] Remove 'No Servers found!'
+- [ ] If no results, don't try to print the table.
+- [ ] Should print help if an invalid verb is used.
 - [ ] Powershell binary cmdlets
