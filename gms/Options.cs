@@ -31,7 +31,7 @@ namespace gms
 
     }
 
-    [Verb("get", true, HelpText = "Returns all servers (default), or get servers by PROPERTY. Supports SQL-style wildcards (%).")]
+    [Verb("get", false, HelpText = "Returns all servers (default), or get servers by PROPERTY. Supports SQL-style wildcards (%).")]
     class GetOptions : IOptions
     {
         public string? name  { get; set; }
@@ -57,8 +57,8 @@ namespace gms
         public string? notes { get; set; }
     }
 
-    [Verb("edit", false, HelpText = "Edit a server record by FQDN.")]
-    class EditOptions : IOptions
+    [Verb("set", false, HelpText = "Set a server record by FQDN.")]
+    class SetOptions : IOptions
     {
         public string? name  { get; set; }
         public string? fqdn  { get; set; }

@@ -32,10 +32,6 @@ namespace gmslib
                         results.Add(new MyServer(reader));
                     }
                 }
-                else
-                {
-                    Console.WriteLine("No servers found!");
-                }
             }
 
             return results;
@@ -50,9 +46,6 @@ namespace gmslib
                 using var tableCmd = connection.CreateCommand();
                 connection.Open();
                 tableCmd.CommandText =
-                    //$@"SELECT * 
-                    //    FROM myservers
-                    //    WHERE {property} = '{value}' COLLATE NOCASE";
                     $@"SELECT * 
                         FROM myservers
                         WHERE [{property}] LIKE @PROPERTY COLLATE NOCASE";
@@ -67,11 +60,6 @@ namespace gmslib
                     {
                         results.Add(new MyServer(reader));
                     }
-                }
-
-                else
-                {
-                    Console.WriteLine("No servers found!");
                 }
             }
 
@@ -131,7 +119,7 @@ namespace gmslib
             }
         }
 
-        public void EditMyServer(MyServer editedServer)
+        public void SetMyServer(MyServer editedServer)
         {
             List<MyServer> currentRecordList = new();
             currentRecordList = GetByProperty("FQDN", editedServer.FQDN);

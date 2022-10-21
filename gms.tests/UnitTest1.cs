@@ -261,7 +261,7 @@ public class UnitTest1
         Assert.Equal("OtherServer3".ToLower(), results[0].Name.ToLower());
 
         // Edit Server
-        myServerController.EditMyServer(editServer);
+        myServerController.SetMyServer(editServer);
         List<MyServer> newResults = myServerController.GetByProperty("FQDN", myServer.FQDN);
 
         // Test

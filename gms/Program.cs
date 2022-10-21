@@ -17,7 +17,7 @@ namespace gms
             databaseManager.CreateTable(connectionString);
 
             var parser = new CommandLine.Parser(with => with.HelpWriter = null);
-            var parserResults = parser.ParseArguments<GetOptions, AddOptions, EditOptions, DelOptions>(args);
+            var parserResults = parser.ParseArguments<GetOptions, AddOptions, SetOptions, DelOptions>(args);
 
             parserResults
                 .WithParsed<GetOptions>(opts =>
@@ -28,9 +28,9 @@ namespace gms
                     {
                         RunAdd(opts);
                     })
-                .WithParsed<EditOptions>(opts =>
+                .WithParsed<SetOptions>(opts =>
                     {
-                        RunEdit(opts);
+                        RunSet(opts);
                     })
                 .WithParsed<DelOptions>(opts =>
                     {
@@ -104,14 +104,14 @@ namespace gms
             myServerController.DeleteMyServer(myServer);
         }
 
-        static void RunEdit(EditOptions opts)
+        static void RunSet(SetOptions opts)
         {
             MyServer myServer = new MyServer(opts.name, opts.fqdn, opts.ipaddr, 
                                              opts.role, opts.env, opts.os, 
                                              opts.status, opts.notes);
 
             MyServerController myServerController = new(connectionString);
-            myServerController.EditMyServer(myServer);
+            myServerController.SetMyServer(myServer);
         }
 
         static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)
@@ -130,21 +130,24 @@ namespace gms
 
         static void PrintOutput(List<MyServer> servers)
         {
-            string[] header = { "Name", "FQDN", "IPAddress", "Role", "Env", "OS", "Status", "Notes" };
-            Table table = new Table();
-
-            table.AddColumns(header);
-            table.Border = TableBorder.Simple;
-
-            foreach (var server in servers)
+            if (servers.Count > 0)
             {
-                string[] row = { server.Name, server.FQDN, server.IPAddress,
-                                 server.Role, server.ENV, server.OperatingSystem,
-                                 server.Status, server.Notes };
-                table.AddRow(row);
-            }
+                string[] header = { "Name", "FQDN", "IPAddress", "Role", "Env", "OS", "Status", "Description" };
+                Table table = new Table();
 
-            AnsiConsole.Write(table);
+                table.AddColumns(header);
+                table.Border = TableBorder.Simple;
+
+                foreach (var server in servers)
+                {
+                    string[] row = { server.Name, server.FQDN, server.IPAddress,
+                                     server.Role, server.ENV, server.OperatingSystem,
+                                     server.Status, server.Notes };
+                    table.AddRow(row);
+                }
+
+                AnsiConsole.Write(table);
+            }
         }
     }
 }
