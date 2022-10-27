@@ -4,3 +4,4 @@ tags
 *.json
 *sqlite
 .vs/
+*.db
