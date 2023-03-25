@@ -14,3 +14,8 @@
 - [x] If no results, don't try to print the table.
 - [x] Should print help if an invalid verb is used.
 - [ ] Powershell binary cmdlets
+- [ ] v2
+    - [ ] Refactor
+    - [ ] use Moq for testing
+    - [ ] Add guid to Servers schema 
+    - [ ] Update config handling
